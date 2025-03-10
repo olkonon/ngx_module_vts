@@ -1,5 +1,6 @@
 ngx_addon_name=ngx_http_vhost_traffic_status_module
-have=NGX_STAT_STUB . auto/have
+have=NGX_HTTP_VTS_STATUS . auto/have
+CORE_INCS="$CORE_INCS $ngx_addon_dir/src/"
 
 HTTP_VTS_SRCS=" \
                  $ngx_addon_dir/src/ngx_http_vhost_traffic_status_module.c             \
@@ -38,7 +39,6 @@ if test -n "$ngx_module_link"; then
     ngx_module_name=$ngx_addon_name
     ngx_module_srcs="$HTTP_VTS_SRCS"
     ngx_module_deps="$HTTP_VTS_DEPS"
-
     . auto/module
 else
     HTTP_MODULES="$HTTP_MODULES $ngx_addon_name"
