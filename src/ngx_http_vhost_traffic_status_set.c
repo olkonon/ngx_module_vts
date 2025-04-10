@@ -358,14 +358,6 @@ ngx_http_vhost_traffic_status_set_by_filter_node(
 
     case NGX_HTTP_VHOST_TRAFFIC_STATUS_UPSTREAM_UA:
     case NGX_HTTP_VHOST_TRAFFIC_STATUS_UPSTREAM_UG:
-        ngx_http_vhost_traffic_status_node_upstream_lookup(control, &us);
-        if (control->count) {
-            buf->len = ngx_sprintf(p, "%uA", ngx_http_vhost_traffic_status_set_by_filter_node_member(
-                                                 control, vtsn, &us)) - p;
-        } else {
-            return NGX_ERROR;
-        }
-        break;
     }
 
     return NGX_OK;

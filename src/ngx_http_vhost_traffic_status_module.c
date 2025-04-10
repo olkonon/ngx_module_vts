@@ -9,9 +9,7 @@
 #include "ngx_http_vhost_traffic_status_shm.h"
 #include "ngx_http_vhost_traffic_status_filter.h"
 #include "ngx_http_vhost_traffic_status_limit.h"
-#include "ngx_http_vhost_traffic_status_display.h"
 #include "ngx_http_vhost_traffic_status_set.h"
-#include "ngx_http_vhost_traffic_status_dump.h"
 
 
 static ngx_int_t ngx_http_vhost_traffic_status_handler(ngx_http_request_t *r);
@@ -43,14 +41,6 @@ static char *ngx_http_vhost_traffic_status_merge_loc_conf(ngx_conf_t *cf,
 static ngx_int_t ngx_http_vhost_traffic_status_init_worker(ngx_cycle_t *cycle);
 static void ngx_http_vhost_traffic_status_exit_worker(ngx_cycle_t *cycle);
 
-
-static ngx_conf_enum_t  ngx_http_vhost_traffic_status_display_format[] = {
-    { ngx_string("json"), NGX_HTTP_VHOST_TRAFFIC_STATUS_FORMAT_JSON },
-    { ngx_string("html"), NGX_HTTP_VHOST_TRAFFIC_STATUS_FORMAT_HTML },
-    { ngx_string("jsonp"), NGX_HTTP_VHOST_TRAFFIC_STATUS_FORMAT_JSONP },
-    { ngx_string("prometheus"), NGX_HTTP_VHOST_TRAFFIC_STATUS_FORMAT_PROMETHEUS },
-    { ngx_null_string, 0 }
-};
 
 
 static ngx_conf_enum_t  ngx_http_vhost_traffic_status_average_method_post[] = {
@@ -145,28 +135,6 @@ static ngx_command_t ngx_http_vhost_traffic_status_commands[] = {
       0,
       0,
       NULL },
-
-    { ngx_string("vhost_traffic_status_display"),
-      NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_NOARGS|NGX_CONF_TAKE1,
-      ngx_http_vhost_traffic_status_display,
-      0,
-      0,
-      NULL },
-
-    { ngx_string("vhost_traffic_status_display_format"),
-      NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_TAKE1,
-      ngx_conf_set_enum_slot,
-      NGX_HTTP_LOC_CONF_OFFSET,
-      offsetof(ngx_http_vhost_traffic_status_loc_conf_t, format),
-      &ngx_http_vhost_traffic_status_display_format },
-
-    { ngx_string("vhost_traffic_status_display_jsonp"),
-      NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_TAKE1,
-      ngx_conf_set_str_slot,
-      NGX_HTTP_LOC_CONF_OFFSET,
-      offsetof(ngx_http_vhost_traffic_status_loc_conf_t, jsonp),
-      NULL },
-
     { ngx_string("vhost_traffic_status_display_sum_key"),
       NGX_HTTP_SRV_CONF|NGX_HTTP_LOC_CONF|NGX_CONF_TAKE1,
       ngx_conf_set_str_slot,
@@ -1050,7 +1018,7 @@ ngx_http_vhost_traffic_status_merge_loc_conf(ngx_conf_t *cf, void *parent, void 
 static ngx_int_t
 ngx_http_vhost_traffic_status_init_worker(ngx_cycle_t *cycle)
 {
-    ngx_event_t                          *dump_event;
+//    ngx_event_t                          *dump_event;
     ngx_http_vhost_traffic_status_ctx_t  *ctx;
 
     ngx_log_debug0(NGX_LOG_DEBUG_HTTP, cycle->log, 0,
@@ -1071,14 +1039,14 @@ ngx_http_vhost_traffic_status_init_worker(ngx_cycle_t *cycle)
     }
 
     /* dumper */
-    dump_event = &ctx->dump_event;
-    dump_event->handler = ngx_http_vhost_traffic_status_dump_handler;
-    dump_event->log = ngx_cycle->log;
-    dump_event->data = ctx;
-    ngx_add_timer(dump_event, 1000);
+   // dump_event = &ctx->dump_event;
+   // dump_event->handler = ngx_http_vhost_traffic_status_dump_handler;
+   // dump_event->log = ngx_cycle->log;
+  //  dump_event->data = ctx;
+  //  ngx_add_timer(dump_event, 1000);
 
     /* restore */
-    ngx_http_vhost_traffic_status_dump_restore(dump_event);
+   // ngx_http_vhost_traffic_status_dump_restore(dump_event);
 
     return NGX_OK;
 }
@@ -1087,7 +1055,7 @@ ngx_http_vhost_traffic_status_init_worker(ngx_cycle_t *cycle)
 static void
 ngx_http_vhost_traffic_status_exit_worker(ngx_cycle_t *cycle)
 {
-    ngx_event_t                          *dump_event;
+ //   ngx_event_t                          *dump_event;
     ngx_http_vhost_traffic_status_ctx_t  *ctx;
 
     ngx_log_debug0(NGX_LOG_DEBUG_HTTP, cycle->log, 0,
@@ -1108,10 +1076,10 @@ ngx_http_vhost_traffic_status_exit_worker(ngx_cycle_t *cycle)
     }
 
     /* dump */
-    dump_event = &ctx->dump_event;
-    dump_event->log = ngx_cycle->log;
-    dump_event->data = ctx;
-    ngx_http_vhost_traffic_status_dump_execute(dump_event);
+    //dump_event = &ctx->dump_event;
+  //  dump_event->log = ngx_cycle->log;
+  //  dump_event->data = ctx;
+  //  ngx_http_vhost_traffic_status_dump_execute(dump_event);
 }
 
 /* vi:set ft=c ts=4 sw=4 et fdm=marker: */
