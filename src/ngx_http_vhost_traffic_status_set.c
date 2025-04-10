@@ -8,6 +8,29 @@
 #include "ngx_http_vhost_traffic_status_set.h"
 
 
+//Compablility trash
+#define NGX_HTTP_VHOST_TRAFFIC_STATUS_CONTROL_CMD_NONE     0
+#define NGX_HTTP_VHOST_TRAFFIC_STATUS_CONTROL_CMD_STATUS   1
+
+
+#define NGX_HTTP_VHOST_TRAFFIC_STATUS_CONTROL_RANGE_NONE   0
+
+typedef struct {
+    ngx_http_request_t          *r;
+    ngx_uint_t                   command;
+    ngx_int_t                    group;
+    ngx_str_t                   *zone;
+    ngx_str_t                   *arg_cmd;
+    ngx_str_t                   *arg_group;
+    ngx_str_t                   *arg_zone;
+    ngx_str_t                   *arg_name;
+    ngx_uint_t                   range;
+    ngx_uint_t                   count;
+    u_char                     **buf;
+} ngx_http_vhost_traffic_status_control_t;
+
+//End compablility trash
+
 static ngx_int_t ngx_http_vhost_traffic_status_set_init(ngx_http_request_t *r,
     ngx_http_vhost_traffic_status_control_t *control);
 

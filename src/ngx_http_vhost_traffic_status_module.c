@@ -743,30 +743,6 @@ ngx_http_vhost_traffic_status_create_main_conf(ngx_conf_t *cf)
         return NULL;
     }
 
-    /*
-     * set by ngx_pcalloc():
-     *
-     *     ctx->rbtree = { NULL, ... };
-     *     ctx->filter_keys = { NULL, ... };
-     *     ctx->limit_traffics = { NULL, ... };
-     *     ctx->limit_filter_traffics = { NULL, ... };
-     *
-     *     ctx->filter_max_node_matches = { NULL, ... };
-     *     ctx->filter_max_node = 0;
-     *
-     *     ctx->enable = 0;
-     *     ctx->filter_check_duplicate = 0;
-     *     ctx->limit_check_duplicate = 0;
-     *     ctx->shm_zone = { NULL, ... };
-     *     ctx->shm_name = { 0, NULL };
-     *     ctx->shm_size = 0;
-     *
-     *     ctx->dump = 0;
-     *     ctx->dump_file = { 0, NULL };
-     *     ctx->dump_period = 0;
-     *     ctx->dump_event = { NULL, ... };
-     */
-
     ctx->filter_max_node = NGX_CONF_UNSET_UINT;
     ctx->enable = NGX_CONF_UNSET;
     ctx->filter_check_duplicate = NGX_CONF_UNSET;
@@ -838,36 +814,6 @@ ngx_http_vhost_traffic_status_create_loc_conf(ngx_conf_t *cf)
     if (conf == NULL) {
         return NULL;
     }
-
-    /*
-     * set by ngx_pcalloc():
-     *
-     *     conf->shm_zone = { NULL, ... };
-     *     conf->shm_name = { 0, NULL };
-     *     conf->enable = 0;
-     *     conf->filter = 0;
-     *     conf->filter_host = 0;
-     *     conf->filter_check_duplicate = 0;
-     *     conf->filter_keys = { NULL, ... };
-     *     conf->filter_vars = { NULL, ... };
-     *
-     *     conf->limit = 0;
-     *     conf->limit_check_duplicate = 0;
-     *     conf->limit_traffics = { NULL, ... };
-     *     conf->limit_filter_traffics = { NULL, ... };
-     *
-     *     conf->stats = { 0, ... };
-     *     conf->start_msec = 0;
-     *     conf->format = 0;
-     *     conf->jsonp = { 0, NULL };
-     *     conf->sum_key = { 0, NULL };
-     *     conf->average_method = 0;
-     *     conf->average_period = 0;
-     *     conf->histogram_buckets = { NULL, ... };
-     *     conf->bypass_limit = 0;
-     *     conf->bypass_stats = 0;
-     *     conf->stats_by_upstream = 0;
-     */
 
     conf->shm_zone = NGX_CONF_UNSET_PTR;
     conf->enable = NGX_CONF_UNSET;
@@ -1018,7 +964,6 @@ ngx_http_vhost_traffic_status_merge_loc_conf(ngx_conf_t *cf, void *parent, void 
 static ngx_int_t
 ngx_http_vhost_traffic_status_init_worker(ngx_cycle_t *cycle)
 {
-//    ngx_event_t                          *dump_event;
     ngx_http_vhost_traffic_status_ctx_t  *ctx;
 
     ngx_log_debug0(NGX_LOG_DEBUG_HTTP, cycle->log, 0,
@@ -1038,16 +983,6 @@ ngx_http_vhost_traffic_status_init_worker(ngx_cycle_t *cycle)
         return NGX_OK;
     }
 
-    /* dumper */
-   // dump_event = &ctx->dump_event;
-   // dump_event->handler = ngx_http_vhost_traffic_status_dump_handler;
-   // dump_event->log = ngx_cycle->log;
-  //  dump_event->data = ctx;
-  //  ngx_add_timer(dump_event, 1000);
-
-    /* restore */
-   // ngx_http_vhost_traffic_status_dump_restore(dump_event);
-
     return NGX_OK;
 }
 
@@ -1055,7 +990,6 @@ ngx_http_vhost_traffic_status_init_worker(ngx_cycle_t *cycle)
 static void
 ngx_http_vhost_traffic_status_exit_worker(ngx_cycle_t *cycle)
 {
- //   ngx_event_t                          *dump_event;
     ngx_http_vhost_traffic_status_ctx_t  *ctx;
 
     ngx_log_debug0(NGX_LOG_DEBUG_HTTP, cycle->log, 0,
@@ -1074,12 +1008,6 @@ ngx_http_vhost_traffic_status_exit_worker(ngx_cycle_t *cycle)
                        "vts::exit_worker(): is bypassed");
         return;
     }
-
-    /* dump */
-    //dump_event = &ctx->dump_event;
-  //  dump_event->log = ngx_cycle->log;
-  //  dump_event->data = ctx;
-  //  ngx_http_vhost_traffic_status_dump_execute(dump_event);
 }
 
 /* vi:set ft=c ts=4 sw=4 et fdm=marker: */
