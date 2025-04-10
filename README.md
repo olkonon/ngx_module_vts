@@ -1,7 +1,7 @@
 Nginx virtual host traffic status module
 ==========
 
-[![Build](https://github.com/olkonon/ngx_module_vts/actions/workflows/build.yml/badge.svg)](https://github.com/olkonon/ngx_module_vts/actions/workflows/ci.yml)
+[![Build](https://github.com/olkonon/ngx_module_vts/actions/workflows/build.yml/badge.svg)](https://github.com/olkonon/ngx_module_vts/actions/workflows/build.yml)
 [![License](http://img.shields.io/badge/license-BSD-brightgreen.svg)](https://github.com/vozlt/nginx-module-vts/blob/master/LICENSE)
 
 Nginx virtual host traffic status module
